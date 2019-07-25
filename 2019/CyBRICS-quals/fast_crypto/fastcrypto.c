@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h> 
 
-void nextSeed(mpz_t res, mpz_t seed, mpz_t power, mpz_t mod) {
+void next_seed(mpz_t res, mpz_t seed, mpz_t power, mpz_t mod) {
 	mpz_powm(res, seed, power, mod);
 }
 int main() {
@@ -29,11 +29,11 @@ int main() {
 		for(unsigned long seed = 2 ; seed <= (1 << 16)+2; ++seed) {
 			mpz_set_ui(seed2, seed);
 
-			nextSeed(temp, seed2, powered_offset, N);
+			next_seed(temp, seed2, powered_offset, N);
 			mpz_set(seed2, temp);
 
 			for(int i = 0; i < 4; ++i) {
-				nextSeed(temp, seed2, pow, N);
+				next_seed(temp, seed2, pow, N);
 				mpz_set(seed2, temp);
 				int d = mpz_get_ui(seed2) & 255;
 				if(d != (magicBytes[i] ^ data[i])) {

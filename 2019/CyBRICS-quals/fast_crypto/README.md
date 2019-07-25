@@ -25,11 +25,11 @@ However, the testing of each combination is very slow (2-3s each in C) and shoul
 The first thing to notice is that the state transition can be more efficiently expressed as `state = pow(state, power, N)`, which makes sure the intermediate results are considered modulo N as well. This is obviously better than calculating the actual power, and then reducing it with `%N`.
 
 The second observation to make is that discarding the first `O` iterations is doing the same as transforming the state like `state = state ** (power ** O) % N`.
-The factor `power ** O` is independant of the seed, can only needs to be calculated for every value of `power`.
+The factor `power ** O` is independant of the seed, and only needs to be calculated for every value of `power`.
 
 Doing this speeds up the calculations to 0.5-1s per combination.
 
-The last optimisation is that `N` is easily factorable (sage solves this near instantly), so Euler's Theorem can be applied: `state = state ** (power ** O) % N = state ** (power ** O % phi(N)) % N`. Using the python power notation, this becomes: `state = pow(state, pow(power, O, phi(N)), N)`.
+The last optimisation is possible because `N` is easily factorable (sage solves this near instantly), so Euler's Theorem can be applied: `state = state ** (power ** O) % N = state ** (power ** O % phi(N)) % N`. Using the python power notation, this becomes: `state = pow(state, pow(power, O, phi(N)), N)`.
 
 Doing this speeds the process up to <10ms per iteration.
 
